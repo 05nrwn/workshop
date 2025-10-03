@@ -15,6 +15,11 @@ import Experience from "./component/sections/exp";
 // import ShoppingCart from "./component/card/shopping";
 import CVPortfolio from "./component/sections/index"; // Import CV Portfolio
 
+// Authentication Components
+import Login from "./component/auth/login";
+import Register from "./component/auth/register";
+import EnhancedRegistrationForm from "./component/auth/EnhancedRegistrationForm";
+
 function App() {
     return (
         <Router>
@@ -32,20 +37,38 @@ function App() {
                         </>
                     }
                 />
-                <Route
-                    path="/"
-                    element={
-                        <>
-                            <Header />
-                            <Experience />
-                        </>
-                    }
-                />
+
+                {/* Portfolio Page */}
                 <Route
                     path="/fortofolio"
                     element={
                         <>
                             <CVPortfolio />
+                        </>
+                    }
+                />
+
+                {/* Authentication Pages */}
+                <Route
+                    path="/login"
+                    element={<Login />}
+                />
+                <Route
+                    path="/register"
+                    element={<Register />}
+                />
+                <Route
+                    path="/enhanced-register"
+                    element={<EnhancedRegistrationForm />}
+                />
+
+                {/* Experience Page (if needed as separate route) */}
+                <Route
+                    path="/experience"
+                    element={
+                        <>
+                            <Header />
+                            <Experience />
                         </>
                     }
                 />

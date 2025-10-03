@@ -12,7 +12,10 @@ const Navbar = () => {
         { id: 3, label: "Services", path: "/services" },
         { id: 4, label: "Portfolio", path: "/fortofolio" },
         { id: 5, label: "Contact", path: "/contact" },
-        { id: 6, label: "cart", path: "/shop" },
+    ];
+
+    const authItems = [
+        { id: 6, label: "Login", path: "/login" },
     ];
 
     return (
@@ -40,6 +43,20 @@ const Navbar = () => {
                         <Link
                             to={item.path}
                             className={styles.navLink}
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            {item.label}
+                        </Link>
+                    </li>
+                ))}
+
+                {/* Authentication Links */}
+                <li className={styles.authDivider}></li>
+                {authItems.map((item) => (
+                    <li key={item.id}>
+                        <Link
+                            to={item.path}
+                            className={`${styles.navLink} ${styles.authLink}`}
                             onClick={() => setIsMenuOpen(false)}
                         >
                             {item.label}

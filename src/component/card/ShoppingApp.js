@@ -55,7 +55,7 @@ const ShoppingApp = () => {
                         : item
                 )
                 .filter((item) => item.quantity > 0);
-            
+
             // Remove from selected items if item is completely removed from cart
             const itemStillInCart = updatedCart.find(item => item.id === productId);
             if (!itemStillInCart) {
@@ -65,7 +65,7 @@ const ShoppingApp = () => {
                     return newSet;
                 });
             }
-            
+
             return updatedCart;
         });
     };
@@ -138,7 +138,7 @@ const ShoppingApp = () => {
         // Remove selected items from cart
         setCart(prevCart => prevCart.filter(item => !selectedItems.has(item.id)));
         setSelectedItems(new Set());
-        
+
         // Reset buyer info and other states
         setBuyerInfo({
             name: '',
@@ -154,13 +154,13 @@ const ShoppingApp = () => {
     };
 
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
-    
+
     // Calculate totals for selected items only
     const selectedCartItems = cart.filter(item => selectedItems.has(item.id));
     const selectedSubtotal = selectedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const selectedDiscountAmount = (selectedSubtotal * appliedDiscount) / 100;
     const selectedTotal = selectedSubtotal - selectedDiscountAmount;
-    
+
     // Keep original calculations for display purposes
     const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const discountAmount = (subtotal * appliedDiscount) / 100;
@@ -241,7 +241,7 @@ const ShoppingApp = () => {
                     <div>
                         <CardGrid onAddToCart={handleAddToCart} />
                     </div>
-                    
+
                     {/* Shopping Cart Sidebar */}
                     <div style={{ position: 'sticky', top: '120px' }}>
                         <div className={styles.card}>
@@ -249,7 +249,7 @@ const ShoppingApp = () => {
                                 <h3 className={styles.cardTitle} style={{ textAlign: 'center', marginBottom: '1rem' }}>
                                     Shopping Cart ({cartItemCount})
                                 </h3>
-                                
+
                                 {cart.length === 0 ? (
                                     <div style={{ textAlign: 'center', padding: '2rem 0' }}>
                                         <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
@@ -273,23 +273,23 @@ const ShoppingApp = () => {
                                                     borderBottom: '1px solid #ecf0f1'
                                                 }}>
                                                     <div style={{ flex: 1 }}>
-                                                        <div style={{ 
-                                                            fontWeight: 'bold', 
+                                                        <div style={{
+                                                            fontWeight: 'bold',
                                                             color: '#2c3e50',
                                                             fontSize: '0.95rem',
                                                             marginBottom: '0.25rem'
                                                         }}>
                                                             {item.name}
                                                         </div>
-                                                        <div style={{ 
-                                                            color: '#7f8c8d', 
+                                                        <div style={{
+                                                            color: '#7f8c8d',
                                                             fontSize: '0.85rem',
                                                             marginBottom: '0.25rem'
                                                         }}>
                                                             Qty: {item.quantity}
                                                         </div>
-                                                        <div style={{ 
-                                                            fontWeight: 'bold', 
+                                                        <div style={{
+                                                            fontWeight: 'bold',
                                                             color: '#3498db',
                                                             fontSize: '0.9rem'
                                                         }}>
@@ -331,7 +331,7 @@ const ShoppingApp = () => {
                                             }}>
                                                 Total: Rp {subtotal.toLocaleString('id-ID')}
                                             </div>
-                                            
+
                                             <button
                                                 onClick={() => setCurrentView('checkout')}
                                                 className={styles.cardButton}
@@ -356,7 +356,7 @@ const ShoppingApp = () => {
             ) : currentView === 'cart' ? (
                 <div className={styles.container}>
                     <h2 className={styles.title}>Shopping Cart ({cartItemCount} items)</h2>
-                    
+
                     {cart.length === 0 ? (
                         <div className={styles.card}>
                             <div className={styles.cardContent} style={{ textAlign: 'center', padding: '3rem' }}>
@@ -389,7 +389,7 @@ const ShoppingApp = () => {
                                             />
                                             Select All Items ({selectedItems.size} of {cart.length} selected)
                                         </label>
-                                        
+
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                             <span style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>
                                                 Selected Total: <strong style={{ color: '#27ae60' }}>Rp {selectedSubtotal.toLocaleString('id-ID')}</strong>
@@ -448,7 +448,7 @@ const ShoppingApp = () => {
                                                 <button
                                                     className={styles.cardButton}
                                                     onClick={() => handleAddToCart(item)}
-                                                    style={{ 
+                                                    style={{
                                                         backgroundColor: '#3498db',
                                                         flex: 1,
                                                         fontSize: '0.9rem'
@@ -459,7 +459,7 @@ const ShoppingApp = () => {
                                                 <button
                                                     className={styles.cardButton}
                                                     onClick={() => handleRemoveFromCart(item.id)}
-                                                    style={{ 
+                                                    style={{
                                                         backgroundColor: '#e74c3c',
                                                         flex: 1,
                                                         fontSize: '0.9rem'
@@ -479,7 +479,7 @@ const ShoppingApp = () => {
                                     <h3 className={styles.cardTitle} style={{ textAlign: 'center', marginBottom: '1rem' }}>
                                         Cart Summary
                                     </h3>
-                                    
+
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                                         <div>
                                             <h4 style={{ color: '#2c3e50', marginBottom: '0.5rem' }}>All Items</h4>
@@ -493,7 +493,7 @@ const ShoppingApp = () => {
                                                 Total: Rp {subtotal.toLocaleString('id-ID')}
                                             </p>
                                         </div>
-                                        
+
                                         <div>
                                             <h4 style={{ color: '#27ae60', marginBottom: '0.5rem' }}>Selected Items</h4>
                                             <p style={{ margin: '0.25rem 0', color: '#7f8c8d' }}>
@@ -661,9 +661,9 @@ const ShoppingApp = () => {
 
                                 {/* Selected Items Only */}
                                 <div style={{ marginBottom: '1rem' }}>
-                                    <div style={{ 
-                                        display: 'flex', 
-                                        justifyContent: 'space-between', 
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
                                         alignItems: 'center',
                                         marginBottom: '1rem',
                                         padding: '0.75rem',
@@ -688,10 +688,10 @@ const ShoppingApp = () => {
                                             Modify Selection
                                         </button>
                                     </div>
-                                    
+
                                     {selectedItems.size === 0 ? (
-                                        <div style={{ 
-                                            textAlign: 'center', 
+                                        <div style={{
+                                            textAlign: 'center',
                                             padding: '2rem',
                                             color: '#e74c3c',
                                             backgroundColor: '#fdf2f2',
@@ -825,8 +825,8 @@ const ShoppingApp = () => {
                                     }}
                                     disabled={selectedItems.size === 0}
                                 >
-                                    {selectedItems.size > 0 
-                                        ? `Place Order - Rp ${selectedTotal.toLocaleString('id-ID')}` 
+                                    {selectedItems.size > 0
+                                        ? `Place Order - Rp ${selectedTotal.toLocaleString('id-ID')}`
                                         : 'Select Items to Checkout'
                                     }
                                 </button>
