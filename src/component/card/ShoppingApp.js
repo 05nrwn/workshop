@@ -211,16 +211,6 @@ const ShoppingApp = () => {
                     )}
                 </button>
                 <button
-                    className={`${styles.cardButton} ${currentView === 'cart' ? styles.active : ''}`}
-                    onClick={() => setCurrentView('cart')}
-                    style={{
-                        backgroundColor: currentView === 'cart' ? '#2980b9' : '#3498db',
-                        minWidth: '150px'
-                    }}
-                >
-                    Full Cart View
-                </button>
-                <button
                     className={`${styles.cardButton} ${currentView === 'checkout' ? styles.active : ''}`}
                     onClick={() => setCurrentView('checkout')}
                     style={{
@@ -262,16 +252,70 @@ const ShoppingApp = () => {
                                     </div>
                                 ) : (
                                     <>
+                                        {/* Select All / Deselect All */}
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            marginBottom: '1rem',
+                                            padding: '0.5rem',
+                                            backgroundColor: '#f8f9fa',
+                                            borderRadius: '4px'
+                                        }}>
+                                            <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#2c3e50' }}>
+                                                For Checkout ({selectedItems.size} of {cart.length})
+                                            </span>
+                                            <button
+                                                onClick={handleSelectAll}
+                                                style={{
+                                                    background: selectedItems.size === cart.length ? '#e74c3c' : '#27ae60',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    borderRadius: '4px',
+                                                    padding: '0.25rem 0.5rem',
+                                                    cursor: 'pointer',
+                                                    fontSize: '0.8rem'
+                                                }}
+                                            >
+                                                {selectedItems.size === cart.length ? 'Deselect All' : 'Select All'}
+                                            </button>
+                                        </div>
+
                                         {/* Cart Items */}
                                         <div style={{ maxHeight: '400px', overflowY: 'auto', marginBottom: '1rem' }}>
                                             {cart.map((item) => (
                                                 <div key={item.id} style={{
                                                     display: 'flex',
-                                                    justifyContent: 'space-between',
                                                     alignItems: 'center',
                                                     padding: '0.75rem 0',
-                                                    borderBottom: '1px solid #ecf0f1'
+                                                    borderBottom: '1px solid #ecf0f1',
+                                                    backgroundColor: selectedItems.has(item.id) ? '#e8f5e8' : 'transparent'
                                                 }}>
+                                                    {/* Checkbox */}
+                                                    <label style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        cursor: 'pointer',
+                                                        marginRight: '0.75rem'
+                                                    }}>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedItems.has(item.id)}
+                                                            onChange={() => handleItemSelect(item.id)}
+                                                            style={{
+                                                                transform: 'scale(1.2)',
+                                                                marginRight: '0.5rem'
+                                                            }}
+                                                        />
+                                                        <span style={{
+                                                            fontSize: '0.8rem',
+                                                            color: selectedItems.has(item.id) ? '#27ae60' : '#7f8c8d'
+                                                        }}>
+                                                            {selectedItems.has(item.id) ? '✓' : '○'}
+                                                        </span>
+                                                    </label>
+
+                                                    {/* Item Info */}
                                                     <div style={{ flex: 1 }}>
                                                         <div style={{
                                                             fontWeight: 'bold',
@@ -296,6 +340,8 @@ const ShoppingApp = () => {
                                                             Rp {(item.price * item.quantity).toLocaleString('id-ID')}
                                                         </div>
                                                     </div>
+
+                                                    {/* Remove Button */}
                                                     <button
                                                         onClick={() => handleRemoveFromCart(item.id)}
                                                         style={{
@@ -320,16 +366,34 @@ const ShoppingApp = () => {
                                         {/* Cart Total */}
                                         <div style={{
                                             paddingTop: '1rem',
-                                            borderTop: '2px solid #ecf0f1',
-                                            textAlign: 'center'
+                                            borderTop: '2px solid #ecf0f1'
                                         }}>
+                                            {/* Cart Total */}
                                             <div style={{
-                                                fontSize: '1.2rem',
-                                                fontWeight: 'bold',
-                                                color: '#2c3e50',
-                                                marginBottom: '1rem'
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                marginBottom: '0.5rem',
+                                                fontSize: '0.9rem',
+                                                color: '#7f8c8d'
                                             }}>
-                                                Total: Rp {subtotal.toLocaleString('id-ID')}
+                                                <span>Cart Total:</span>
+                                                <span>Rp {subtotal.toLocaleString('id-ID')}</span>
+                                            </div>
+
+                                            {/* Selected Total */}
+                                            <div style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                marginBottom: '1rem',
+                                                fontSize: '1.1rem',
+                                                fontWeight: 'bold',
+                                                color: '#27ae60',
+                                                padding: '0.5rem',
+                                                backgroundColor: '#e8f5e8',
+                                                borderRadius: '4px'
+                                            }}>
+                                                <span>Selected for Checkout:</span>
+                                                <span>Rp {selectedSubtotal.toLocaleString('id-ID')}</span>
                                             </div>
 
                                             <button
@@ -352,165 +416,6 @@ const ShoppingApp = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-            ) : currentView === 'cart' ? (
-                <div className={styles.container}>
-                    <h2 className={styles.title}>Shopping Cart ({cartItemCount} items)</h2>
-
-                    {cart.length === 0 ? (
-                        <div className={styles.card}>
-                            <div className={styles.cardContent} style={{ textAlign: 'center', padding: '3rem' }}>
-                                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🛒</div>
-                                <h3 className={styles.cardTitle}>Your cart is empty</h3>
-                                <p className={styles.cardDescription} style={{ marginBottom: '2rem' }}>
-                                    Browse our products and add items to your cart
-                                </p>
-                                <button
-                                    className={styles.cardButton}
-                                    onClick={() => setCurrentView('products')}
-                                    style={{ backgroundColor: '#3498db' }}
-                                >
-                                    Continue Shopping
-                                </button>
-                            </div>
-                        </div>
-                    ) : (
-                        <>
-                            {/* Select All / Deselect All */}
-                            <div className={styles.card} style={{ marginBottom: '1rem' }}>
-                                <div className={styles.cardContent}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedItems.size === cart.length && cart.length > 0}
-                                                onChange={handleSelectAll}
-                                                style={{ marginRight: '0.5rem', transform: 'scale(1.2)' }}
-                                            />
-                                            Select All Items ({selectedItems.size} of {cart.length} selected)
-                                        </label>
-
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                            <span style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>
-                                                Selected Total: <strong style={{ color: '#27ae60' }}>Rp {selectedSubtotal.toLocaleString('id-ID')}</strong>
-                                            </span>
-                                            <button
-                                                className={styles.cardButton}
-                                                onClick={() => setCurrentView('checkout')}
-                                                style={{
-                                                    backgroundColor: selectedItems.size > 0 ? '#27ae60' : '#95a5a6',
-                                                    cursor: selectedItems.size > 0 ? 'pointer' : 'not-allowed'
-                                                }}
-                                                disabled={selectedItems.size === 0}
-                                            >
-                                                Checkout Selected ({selectedItems.size})
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Cart Items */}
-                            <div className={styles.grid}>
-                                {cart.map((item) => (
-                                    <div key={item.id} className={styles.card} style={{
-                                        border: selectedItems.has(item.id) ? '2px solid #27ae60' : '2px solid transparent',
-                                        backgroundColor: selectedItems.has(item.id) ? '#d5f4e6' : 'white'
-                                    }}>
-                                        <div className={styles.cardContent}>
-                                            {/* Checkbox */}
-                                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                                                <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', fontSize: '0.9rem' }}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={selectedItems.has(item.id)}
-                                                        onChange={() => handleItemSelect(item.id)}
-                                                        style={{ marginRight: '0.5rem', transform: 'scale(1.1)' }}
-                                                    />
-                                                    <span style={{ fontWeight: selectedItems.has(item.id) ? 'bold' : 'normal' }}>
-                                                        {selectedItems.has(item.id) ? '✓ Selected for checkout' : 'Select for checkout'}
-                                                    </span>
-                                                </label>
-                                            </div>
-
-                                            <h3 className={styles.cardTitle}>{item.name}</h3>
-                                            <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
-                                                Quantity: <strong>{item.quantity}</strong>
-                                            </p>
-                                            <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
-                                                Unit Price: <strong>Rp {item.price.toLocaleString('id-ID')}</strong>
-                                            </p>
-                                            <div className={styles.cardPrice} style={{ marginBottom: '1rem' }}>
-                                                Subtotal: Rp {(item.price * item.quantity).toLocaleString('id-ID')}
-                                            </div>
-
-                                            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'space-between' }}>
-                                                <button
-                                                    className={styles.cardButton}
-                                                    onClick={() => handleAddToCart(item)}
-                                                    style={{
-                                                        backgroundColor: '#3498db',
-                                                        flex: 1,
-                                                        fontSize: '0.9rem'
-                                                    }}
-                                                >
-                                                    Add More
-                                                </button>
-                                                <button
-                                                    className={styles.cardButton}
-                                                    onClick={() => handleRemoveFromCart(item.id)}
-                                                    style={{
-                                                        backgroundColor: '#e74c3c',
-                                                        flex: 1,
-                                                        fontSize: '0.9rem'
-                                                    }}
-                                                >
-                                                    Remove One
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Cart Summary */}
-                            <div className={styles.card} style={{ marginTop: '2rem' }}>
-                                <div className={styles.cardContent}>
-                                    <h3 className={styles.cardTitle} style={{ textAlign: 'center', marginBottom: '1rem' }}>
-                                        Cart Summary
-                                    </h3>
-
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-                                        <div>
-                                            <h4 style={{ color: '#2c3e50', marginBottom: '0.5rem' }}>All Items</h4>
-                                            <p style={{ margin: '0.25rem 0', color: '#7f8c8d' }}>
-                                                Total Items: {cart.length}
-                                            </p>
-                                            <p style={{ margin: '0.25rem 0', color: '#7f8c8d' }}>
-                                                Total Quantity: {cartItemCount}
-                                            </p>
-                                            <p style={{ margin: '0.25rem 0', fontSize: '1.1rem', fontWeight: 'bold', color: '#2c3e50' }}>
-                                                Total: Rp {subtotal.toLocaleString('id-ID')}
-                                            </p>
-                                        </div>
-
-                                        <div>
-                                            <h4 style={{ color: '#27ae60', marginBottom: '0.5rem' }}>Selected Items</h4>
-                                            <p style={{ margin: '0.25rem 0', color: '#7f8c8d' }}>
-                                                Selected Items: {selectedItems.size}
-                                            </p>
-                                            <p style={{ margin: '0.25rem 0', color: '#7f8c8d' }}>
-                                                Selected Quantity: {selectedCartItems.reduce((total, item) => total + item.quantity, 0)}
-                                            </p>
-                                            <p style={{ margin: '0.25rem 0', fontSize: '1.1rem', fontWeight: 'bold', color: '#27ae60' }}>
-                                                Selected Total: Rp {selectedSubtotal.toLocaleString('id-ID')}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    )}
                 </div>
             ) : (
                 /* Checkout Form */
@@ -674,7 +579,7 @@ const ShoppingApp = () => {
                                             Selected Items for Checkout ({selectedItems.size})
                                         </span>
                                         <button
-                                            onClick={() => setCurrentView('cart')}
+                                            onClick={() => setCurrentView('products')}
                                             style={{
                                                 background: 'none',
                                                 border: '1px solid #27ae60',
@@ -701,11 +606,11 @@ const ShoppingApp = () => {
                                             <h4>No items selected for checkout</h4>
                                             <p style={{ marginBottom: '1rem' }}>Please go back to cart and select items to purchase.</p>
                                             <button
-                                                onClick={() => setCurrentView('cart')}
+                                                onClick={() => setCurrentView('products')}
                                                 className={styles.cardButton}
                                                 style={{ backgroundColor: '#3498db' }}
                                             >
-                                                Go to Cart
+                                                Back to Shopping
                                             </button>
                                         </div>
                                     ) : (

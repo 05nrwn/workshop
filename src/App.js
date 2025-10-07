@@ -6,13 +6,11 @@ import CardGrid from "./component/card/cardGrid";
 import ShoppingApp from './component/card/ShoppingApp';
 import "./App.css";
 
-// // Pages
-// import Home from "./pages/Home";
-// import About from "./pages/About";
-// import Services from "./pages/Services";
+// Pages
+import AboutPage from "./component/pages/AboutPage";
+import ServicesPage from "./component/pages/ServicesPage";
+import ContactPage from "./component/pages/ContactPage";
 import Experience from "./component/sections/exp";
-// import Contact from "./pages/Contact";
-// import ShoppingCart from "./component/card/shopping";
 import CVPortfolio from "./component/sections/index"; // Import CV Portfolio
 
 // Authentication Components
@@ -36,6 +34,24 @@ function App() {
                             <ShoppingApp />
                         </>
                     }
+                />
+
+                {/* About Page */}
+                <Route
+                    path="/about"
+                    element={<AboutPage />}
+                />
+
+                {/* Services Page */}
+                <Route
+                    path="/services"
+                    element={<ServicesPage />}
+                />
+
+                {/* Contact Page */}
+                <Route
+                    path="/contact"
+                    element={<ContactPage />}
                 />
 
                 {/* Portfolio Page */}
