@@ -179,7 +179,6 @@ const CardGrid = ({ onAddToCart }) => {
     };
     return (
         <section className={styles.container}>
-            <h2 className={styles.title}>Our Services</h2>
             {/* Filter Buttons */}
             <div className={styles.filterSection}>
                 {categories.map(category => (

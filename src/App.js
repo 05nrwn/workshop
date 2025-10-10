@@ -1,9 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DataFetcher from "./component/datafetcher/DataFetcher";
 import Navbar from "./component/navbar/navbar";
 import Header from "./component/header/header";
 import CardGrid from "./component/card/cardGrid";
 import ShoppingApp from './component/card/ShoppingApp';
+import ProductList from "./component/productlist/ProductList";
 import "./App.css";
 
 // Pages
@@ -21,17 +23,17 @@ import EnhancedRegistrationForm from "./component/auth/EnhancedRegistrationForm"
 function App() {
     return (
         <Router>
-            <Navbar />
-
+            {/* <Navbar /> */}
             <Routes>
                 {/* Home Page - show Header + CardGrid */}
                 <Route
                     path="/"
                     element={
                         <>
-                            <Header />
-                            {/* <CardGrid /> */}
-                            <ShoppingApp />
+                            <ProductList />
+                            {/* <Header />
+                            <CardGrid />
+                            <DataFetcher /> */}
                         </>
                     }
                 />
@@ -56,7 +58,7 @@ function App() {
 
                 {/* Portfolio Page */}
                 <Route
-                    path="/fortofolio"
+                    path="/portfolio"
                     element={
                         <>
                             <CVPortfolio />
